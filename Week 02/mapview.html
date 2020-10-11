@@ -31,9 +31,19 @@
 	<body>
 		<div class="container"></div>
 		<button onclick="saveMap()">save</button>
+		<input type="text" name="start" id="start" placeholder="startX,startY default:0,0">
+		<input type="text" name="end" id="end" placeholder="endX,endY default:50,50">
+		<button onclick="findMyPath()">findPath</button>
 	</body>
 
 	<script>
+		function findMyPath(){
+			let start=document.getElementById("start").value;
+			let end=document.getElementById("end").value;
+			let startArr=start.length?start.split(",").map(item=>parseInt(item)):[0,0];
+			let endArr=end.length?end.split(",").map(item=>parseInt(item)):[50,50];
+			findPath(map,startArr,endArr);
+		}
 		class Sorted {
 			constructor(data, compare) {
 				this.data = data.slice();
@@ -150,6 +160,7 @@
 				if (table[y * 100 + x]) {
 					return;
 				}
+				await sleep(10);
 				container.children[y * 100 + x].style.backgroundColor =
 					"lightgreen";
 				table[y * 100 + x] = pre;
@@ -157,15 +168,16 @@
 			}
 			while (queue.length) {
 				let [x, y] = queue.take();
-				console.log(x, y);
+				// console.log(x, y);
 				if (x === end[0] && y === end[1]) {
-					let path = [];
+					let path = [];// 存储找到的最短路径坐标
 					while (x !== start[0] || y !== start[1]) {
-						path.push(map[y * 100 + x]);
+						path.push(table[y * 100 + x]);
 						[x, y] = table[y * 100 + x];
 						container.children[y * 100 + x].style.backgroundColor =
 							"purple";
 					}
+					console.log(path);
 					return path;
 				}
 				await insert(x - 1, y, [x, y]);

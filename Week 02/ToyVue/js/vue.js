@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-10-11 21:59:06
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-10-11 23:06:26
+ * @LastEditTime: 2020-10-12 10:19:41
  * @Description:
  */
 class Vue {

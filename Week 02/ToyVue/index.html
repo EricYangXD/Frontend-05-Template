@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-10-11 21:54:52
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-10-11 23:44:39
+ * @LastEditTime: 2020-10-12 11:07:33
  * @Description: 
 -->
 <!DOCTYPE html>
@@ -11,6 +11,11 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
+		<script src="js/dep.js"></script>
+		<script src="js/watcher.js"></script>
+		<script src="js/compiler.js"></script>
+		<script src="js/observer.js"></script>
+		<script src="js/vue.js"></script>
 	</head>
 	<body>
 		<div id="app">
@@ -23,11 +28,7 @@
 			<input type="text" v-model="msg" />
 			<input type="text" v-model="count" />
 		</div>
-		<script src="./js/dep.js"></script>
-		<script src="./js/watcher.js"></script>
-		<script src="./js/compiler.js"></script>
-		<script src="./js/observer.js"></script>
-		<script src="./js/vue.js"></script>
+
 		<script>
 			let vm = new Vue({
 				el: "#app",
@@ -36,7 +37,7 @@
 					count: 28,
 					person: {
 						age: 18,
-						name: "eric",
+						name: "Eric",
 					},
 				},
 			});

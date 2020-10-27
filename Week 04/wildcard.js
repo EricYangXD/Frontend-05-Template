@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-10-27 15:27:30
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-10-27 15:55:27
+ * @LastEditTime: 2020-10-27 17:55:08
  * @Description:
  */
 function find(source, pattern) {
@@ -43,8 +43,8 @@ function find(source, pattern) {
 		// 把？替换成正则的形式
 		let reg = new RegExp(subPattern.replace(/\?/g, "[\\s\\S]"), "g");
 		reg.lastIndex = lastIndex;
-
-		console.log(reg.exec(source));
+		// 需要注释掉，不然会有问题，多执行了一遍
+		// console.log(reg.exec(source));
 		if (!reg.exec(source)) {
 			return false;
 		}
@@ -58,7 +58,7 @@ function find(source, pattern) {
 		j++
 	) {
 		if (
-			pattern[pattern.length - j] !== source[source.length - 1] &&
+			pattern[pattern.length - j] !== source[source.length - j] &&
 			pattern[pattern.length - j] !== "?"
 		) {
 			return false;
@@ -66,3 +66,4 @@ function find(source, pattern) {
 	}
 	return true;
 }
+console.log(find("abcabcabxaac", "a*b*bx*c"));

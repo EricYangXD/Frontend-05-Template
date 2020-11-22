@@ -1,0 +1,220 @@
+<!--
+ * @Author: Eric YangXinde
+ * @Date: 2020-11-22 13:34:32
+ * @LastModifiedBy: Eric YangXinde
+ * @LastEditTime: 2020-11-22 14:54:26
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta
+			name="viewport"
+			content="width=device-width,maximum-scale=1,minimum-scale=1,initial-scale=1,user-scalable=no,shrink-to-fit=no"
+		/>
+		<meta name="renderer" content="webkit" />
+		<title>New Page Title</title>
+		<meta name="description" content="description of website" />
+		<meta name="keywords" content="keywords" />
+		<!--<link rel="stylesheet" type="text/css" media="screen" />-->
+		<!--<script async src="//www.google-analytics.com/analytics.js"></script>-->
+		<script
+			type="text/javascript"
+			src="https://gw.alipayobjects.com/os/lib/antv/g6/3.8.0/dist/g6.min.js"
+		></script>
+		<style>
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			body {
+				width: 100vw;
+				height: 100vh;
+			}
+			#container {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+
+		<script>
+			const getRealm = () => {
+				const set = new Set();
+				const map = new Map();
+				const objects = [
+					"eval",
+					"isFinite",
+					"isNaN",
+					"parseFloat",
+					"parseInt",
+					"decodeURI",
+					"decodeURIComponent",
+					"encodeURI",
+					"encodeURIComponent",
+					"Object",
+					"Function",
+					"Boolean",
+					"Symbol",
+					"Error",
+					// "AggregateError",
+					"EvalError",
+					// "InternalError",
+					"RangeError",
+					"ReferenceError",
+					"SyntaxError",
+					"TypeError",
+					"URIError",
+					"String",
+					"Number",
+					// "BigInt",
+					"Math",
+					"Date",
+					"Array",
+					"RegExp",
+					"Int8Array",
+					"Uint8Array",
+					"Uint8ClampedArray",
+					"Int16Array",
+					"Uint16Array",
+					"Int32Array",
+					"Uint32Array",
+					"Float32Array",
+					"Float64Array",
+					// "BigInt64Array",
+					// "BigUint64Array",
+					"Map",
+					"Set",
+					"WeakMap",
+					"WeakSet",
+					"ArrayBuffer",
+					"SharedArrayBuffer",
+					"Atomics",
+					"DataView",
+					"JSON",
+					"Promise",
+					// "Generator",
+					// "GeneratorFunction",
+					// "AsyncFunction",
+					"Reflect",
+					"Proxy",
+				];
+				objects.forEach((i) => {
+					map.set(i, window[i]);
+				});
+				const realm = {
+					id: "realm",
+					children: objects.map((o) => ({
+						id: o,
+						children: [],
+					})),
+				};
+				const queue = [...realm.children];
+				while (queue.length > 0) {
+					const child = queue.shift();
+					const id = child.id;
+					const object = map.get(id);
+					if (set.has(object)) continue;
+					set.add(object);
+					for (const p of Object.getOwnPropertyNames(object)) {
+						const d = Object.getOwnPropertyDescriptor(object, p);
+						const pushChild = (type = "value") => {
+							const uid =
+								type === "value"
+									? `${id}.${p}`
+									: `${id}.${p}.[${type}]`;
+							const o = {
+								id: uid,
+								children: [],
+							};
+							map.set(uid, d[type]);
+							child.children.push(o);
+							queue.push(o);
+						};
+						if (
+							(d.value !== null && typeof d.value === "object") ||
+							typeof d.value === "function"
+						) {
+							pushChild();
+						}
+						if (d.get) {
+							pushChild("get");
+						}
+						if (d.set) {
+							pushChild("set");
+						}
+					}
+				}
+				return realm;
+			};
+
+			const render = (data) => {
+				const container = document.getElementById("container");
+				const width = container.scrollWidth;
+				const height = container.scrollHeight || 500;
+				const graph = new G6.TreeGraph({
+					container: "container",
+					width,
+					height,
+					modes: {
+						default: [
+							{
+								type: "collapse-expand",
+								onChange: (item, collapsed) => {
+									const data = item.get("model").data;
+									data.collapsed = collapsed;
+									return true;
+								},
+							},
+							"drag-canvas",
+							"zoom-canvas",
+						],
+					},
+					defaultNode: {
+						size: 26,
+						anchorPoints: [
+							[0, 0.5],
+							[1, 0.5],
+						],
+						style: {
+							fill: "#c6e5ff",
+							stroke: "#5b8ff9",
+						},
+					},
+					defaultEdge: {
+						type: "cubic-horizontal",
+						style: {
+							stroke: "#a3b1bf",
+						},
+					},
+					layout: {
+						type: "dendrogram",
+						direction: "LR",
+						nodeSep: 30,
+						rankSep: 100,
+					},
+				});
+				graph.node((node) => ({
+					label: node.id,
+					labelCfg: {
+						position:
+							node.children && node.children.length > 0
+								? "left"
+								: "right",
+						offset: 5,
+					},
+				}));
+				graph.data(data);
+				graph.render();
+				graph.fitView();
+			};
+
+			render(getRealm());
+		</script>
+	</body>
+</html>

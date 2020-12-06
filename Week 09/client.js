@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 17:03:41
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-06 19:19:22
+ * @LastEditTime: 2020-12-06 23:48:37
  * @Description:
  */
 const net = require("net");
@@ -219,4 +219,7 @@ void (async function () {
 	console.log("response: ", response);
 	// parser接收一段文本返回一棵DOM树
 	let dom = parser.parseHTML(response.body);
+
+	console.log(JSON.stringify(dom, null, "    "));
+	console.log("");
 })();

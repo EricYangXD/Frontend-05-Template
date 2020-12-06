@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 19:15:51
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-06 21:20:30
+ * @LastEditTime: 2020-12-06 21:25:41
  * @Description:
  */
 let currentToken = null;
@@ -10,6 +10,7 @@ let currentAttribute = null;
 let stack = [{ type: "document", children: [] }];
 function emit(token) {
 	console.log(token);
+	// let top=stack[stack.length-1]
 	if (token.type === "text") {
 		return;
 	}

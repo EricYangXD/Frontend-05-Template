@@ -1,12 +1,4 @@
-/*
- * @Author: Eric YangXinde
- * @Date: 2020-12-06 17:03:41
- * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-06 19:05:56
- * @Description:
- */
 const net = require("net");
-const { resolve } = require("path");
 
 class Request {
 	constructor(options) {
@@ -58,17 +50,15 @@ class Request {
 				reject(err);
 				connection.end();
 			});
-			// resolve("");
 		});
 	}
-
 	toString() {
 		return `${this.method} ${this.path} HTTP/1.1\r
-		${Object.keys(this.headers)
-			.map((key) => `${key}: ${this.headers[key]}`)
-			.join("\r\n")}\r
-		\r
-		${this.bodyText}`;
+${Object.keys(this.headers)
+	.map((key) => `${key}: ${this.headers[key]}`)
+	.join("\r\n")}\r
+\r
+${this.bodyText}`;
 	}
 }
 
@@ -104,17 +94,17 @@ class ResponseParser {
 	}
 	receive(string) {
 		for (let i = 0; i < string.length; i++) {
-			this.receiveChar(string.charAt(i));
+			this.receiveChar(string.charAt(i)); // 取到那个字母
 		}
 	}
 	receiveChar(char) {
 		if (this.current === this.WAITING_STATUS_LINE) {
 			if (char === "\r") {
-				this.current = this.WAITING_HEADER_LINE_END;
+				this.current = this.WAITING_STATUS_LINE_END;
 			} else {
 				this.statusLine += char;
 			}
-		} else if (this.current === this.WAITING_HEADER_LINE_END) {
+		} else if (this.current === this.WAITING_STATUS_LINE_END) {
 			if (char === "\n") {
 				this.current = this.WAITING_HEADER_NAME;
 			}
@@ -151,7 +141,8 @@ class ResponseParser {
 				this.current = this.WAITING_BODY;
 			}
 		} else if (this.current === this.WAITING_BODY) {
-			console.log(char);
+			this.bodyParser.receiveChar(char);
+			// console.log(char);
 		}
 	}
 }
@@ -213,8 +204,11 @@ void (async function () {
 		headers: {
 			["X-Foo2"]: "customed",
 		},
-		body: { name: "EricYangXD" },
+		body: {
+			name: "EricYangXD",
+		},
 	});
 	let response = await request.send();
 	console.log("response: ", response);
+	// let dom = parser.parseHTML(response.body);
 })();

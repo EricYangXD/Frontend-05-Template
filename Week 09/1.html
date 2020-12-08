@@ -1,0 +1,158 @@
+<!--
+ * @Author: Eric YangXinde
+ * @Date: 2020-12-07 11:31:45
+ * @LastModifiedBy: Eric YangXinde
+ * @LastEditTime: 2020-12-07 16:58:32
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html maaa="a" lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta
+			name="viewport"
+			content="width=device-width,maximum-scale=1,minimum-scale=1,initial-scale=1,user-scalable=no,shrink-to-fit=no"
+		/>
+		<meta name="renderer" content="webkit" />
+		<title>New Page Title</title>
+		<meta name="description" content="description of website" />
+		<meta name="keywords" content="keywords" />
+		<style>
+			body div #myid {
+				width: 100px;
+				background-color: #ff5000;
+			}
+			body div img {
+				width: 30px;
+				background-color: #ff1111;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<img id="myid" />
+			<img />
+		</div>
+	</body>
+</html>
+<script>
+	// function match(string) {
+	// 	let state = start;
+	// 	for (let c of string) {
+	// 		state = state(c);
+	// 	}
+	// 	return state === end;
+	// }
+
+	// function start(c) {
+	// 	if (c === "a") {
+	// 		return foundA;
+	// 	} else {
+	// 		return start;
+	// 	}
+	// }
+	// function foundA(c) {
+	// 	if (c === "b") {
+	// 		return foundB;
+	// 	} else {
+	// 		return start(c);
+	// 	}
+	// }
+	// function foundB(c) {
+	// 	if (c === "c") {
+	// 		return foundC;
+	// 	} else {
+	// 		return start(c);
+	// 	}
+	// }
+	// function foundC(c) {
+	// 	if (c === "a") {
+	// 		return foundA2;
+	// 	} else {
+	// 		return start(c);
+	// 	}
+	// }
+	// function foundA2(c) {
+	// 	if (c === "b") {
+	// 		return foundB2;
+	// 	} else {
+	// 		return start(c);
+	// 	}
+	// }
+	// function foundB2(c) {
+	// 	if (c === "x") {
+	// 		return end;
+	// 	} else {
+	// 		return foundB(c);
+	// 	}
+	// }
+	// function end(c) {
+	// 	return end;
+	// }
+
+	// console.log(match("abcabcabx"));
+
+	function match(string) {
+		let state = start;
+		for (let c of string) {
+			state = state(c);
+		}
+		return state === end;
+	}
+
+	function start(c) {
+		if (c === "a") {
+			return foundA;
+		} else {
+			return start;
+		}
+	}
+	function foundA(c) {
+		if (c === "b") {
+			return foundB;
+		} else {
+			return start(c);
+		}
+	}
+	function foundB(c) {
+		if (c === "a") {
+			return foundA2;
+		} else {
+			return start(c);
+		}
+	}
+	function foundA2(c) {
+		if (c === "b") {
+			return foundB2;
+		} else {
+			return start(c);
+		}
+	}
+	function foundB2(c) {
+		if (c === "a") {
+			return foundA3;
+		} else {
+			return start(c);
+		}
+	}
+	function foundA3(c) {
+		if (c === "b") {
+			return foundB3;
+		} else {
+			return start(c);
+		}
+	}
+	function foundB3(c) {
+		if (c === "x") {
+			return end;
+		} else {
+			return foundB2(c);
+		}
+	}
+	function end(c) {
+		return end;
+	}
+
+	console.log(match("abababababxabababc"));
+</script>

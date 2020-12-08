@@ -2,14 +2,14 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 15:00:34
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-07 11:37:15
+ * @LastEditTime: 2020-12-07 16:51:33
  * @Description:
  */
 // request line/headers/body 文本型协议 传的都是字符串 「\r\n」作为换行  空行作为结尾
 var http = require("http");
 const server = http.createServer((req, res) => {
-	console.log("request received");
-	console.log(req.headers);
+	// console.log("request received");
+	// console.log(req.headers);
 	let body = [];
 	req.on("data", (chunk) => {
 		body.push(chunk.toString());
@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
 		})
 		.on("end", () => {
 			body = Buffer.concat(body).toString();
-			console.log("body:", body);
+			// console.log("body:", body);
 			res.setHeader("Content-Type", "text/html");
 			res.setHeader("X-Foo", "bar");
 			res.writeHead(200, { "Content-Type": "text/plain" });

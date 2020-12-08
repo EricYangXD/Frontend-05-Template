@@ -2,12 +2,12 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 17:03:41
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-07 17:06:57
+ * @LastEditTime: 2020-12-08 15:02:36
  * @Description:
  */
 const net = require("net");
-const { resolve } = require("path");
 const parser = require("./parser");
+
 class Request {
 	constructor(options) {
 		this.method = options.method || "GET";
@@ -51,8 +51,8 @@ class Request {
 				parser.receive(data.toString());
 				if (parser.isFinished) {
 					resolve(parser.response);
-					connection.end();
 				}
+				connection.end();
 			});
 			connection.on("error", (err) => {
 				reject(err);
@@ -64,11 +64,11 @@ class Request {
 
 	toString() {
 		return `${this.method} ${this.path} HTTP/1.1\r
-		${Object.keys(this.headers)
-			.map((key) => `${key}: ${this.headers[key]}`)
-			.join("\r\n")}\r
-		\r
-		${this.bodyText}`;
+${Object.keys(this.headers)
+	.map((key) => `${key}: ${this.headers[key]}`)
+	.join("\r\n")}\r
+\r
+${this.bodyText}`;
 	}
 }
 
@@ -151,7 +151,7 @@ class ResponseParser {
 				this.current = this.WAITING_BODY;
 			}
 		} else if (this.current === this.WAITING_BODY) {
-			console.log(char);
+			// console.log(char);
 		}
 	}
 }

@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-08 10:05:39
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-08 18:08:51
+ * @LastEditTime: 2020-12-08 19:46:50
  * @Description:
  */
 function getStyle(element) {
@@ -262,6 +262,87 @@ function layout(element) {
 
         });
     }
+
+    // compute the cross axis sizes
+    // align-items, align-self
+    let crossSpace;
+    if(!style[crossSize]){
+        crossSpace=0;
+        elementStyle[crossSize]=0;
+        for(let i=0;i<flexLines.length;i++){
+            elementStyle[crossSize]=elementStyle[crossSize]+flexLines[i].crossSpace;
+        }
+    }else{
+        crossSpace=style[crossSize];
+        for(let i=0;i<flexLines.length;i++){
+            crossSpace-=flexLines[i].crossSpace;
+        }
+    }
+
+    if(style.flexWrap==='wrap-reverse'){
+        crossBase=style[crossSize];
+    }else{
+        crossBase=0;
+    }
+
+    let lineSize=style[crossSize]/flexLines.length;
+    let step;
+    if(style.alignContent==='flex-start'){
+        crossBase+=0;
+        step=0;
+    }
+    if(style.alignContent==='flex-end'){
+        crossBase+=crossSign*crossSpace;
+        step=0;
+    }
+    if(style.alignContent==='center'){
+        crossBase+=crossSign*crossSpace/2;
+        step=0;
+    }
+    if(style.alignContent==='space-between'){
+        crossBase+=0;
+        step=crossSpace/(flexLines.length-1);
+    }
+    if(style.alignContent==='space-around'){
+        crossBase+=crossSign*step/2;
+        step=crossSpace/(flexLines.length);
+    }
+    if(style.alignContent==='stretch'){
+        crossBase+=0;
+        step=0;
+    }
+
+    flexLines.forEach(items=>{
+        let lineCrossSize=style.alignContent==="stretch"?items.crossSpace+crossSpace/flexLines.length:items.crossSpace;
+        for(let i=0;i<items.length;i++){
+            let item=items[i];
+            let itemStyle=getStyle(item);
+            let align=itemStyle.alignSelf||style.alignItems;
+
+            if(itemStyle[crossSize]===null){
+                itemStyle[crossSize]=(align==="stretch")?lineCrossSize:0;
+            }
+            if(align=="flex-start"){
+                itemStyle[crossStart]=crossBase;
+                itemStyle[crossEnd]=itemStyle[crossStart]+crossSign*itemStyle[crossSize];
+            }
+            if(align=="flex-end"){
+                itemStyle[crossStart]=itemStyle[crossEnd]-crossSign*itemStyle[crossSize];
+                itemStyle[crossEnd]=crossBase+crossSign*lineCrossSize;
+            }
+            if(align=="center"){
+                itemStyle[crossStart]=crossBase+crossSign*(lineCrossSize-itemStyle[crossSize])/2;
+                itemStyle[crossEnd]=itemStyle[crossStart]+crossSign*itemStyle[crossSize];
+            }
+            if(align=="stretch"){
+                itemStyle[crossStart]=crossBase;
+                itemStyle[crossEnd]=crossBase+crossSign*((itemStyle[crossSize]!==null&&itemStyle[crossSize]!==(void 0))?itemStyle[crossSize]:lineCrossSize);
+                itemStyle[crossSize]=crossSign*(itemStyle[crossEnd]-itemStyle[crossStart]);
+            }
+        }
+        crossBase+=crossSign*(lineCrossSize+step);
+    });
+    console.log(items);
 }
 
 module.exports = layout;

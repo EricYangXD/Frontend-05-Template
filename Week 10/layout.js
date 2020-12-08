@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-08 10:05:39
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-08 17:38:17
+ * @LastEditTime: 2020-12-08 18:08:51
  * @Description:
  */
 function getStyle(element) {
@@ -163,12 +163,8 @@ function layout(element) {
             if(mainSpace<itemStyle[mainSize]){
                 flexLine.mainSpace=mainSpace;
                 flexLine.crossSpace=crossSpace;
-                // TODO
-                flexLines=[];
+                flexLine=[item];
                 flexLines.push(flexLine);
-
-                flexLine.push(item);
-
                 mainSpace=style[mainSize];
                 crossSpace=0;
             }else{
@@ -184,6 +180,88 @@ function layout(element) {
     flexLine.mainSpace=mainSpace;
     console.log('items: ',items);
     
+    if(style.flexWrap==="nowrap"||isAutoMainSize){
+        flexLine.crossSpace=(style[crossSize]!==undefined)?style[crossSize]:crossSize;
+    }else{
+        flexLine.crossSpace=crossSpace;
+    }
+
+    if(mainSpace<0){
+        // 
+        let scale=style[mainSize]/(style[mainSize]-mainSpace);
+        let currentMain=mainBase;
+        for(let i=0;i<items.length;i++){
+            let item=items[i];
+            let itemStyle=getStyle(item);
+            if(itemStyle.flex){
+                itemStyle[mainSize]=0;
+            }
+            itemStyle[mainSize]=itemStyle[mainSize]*scale;
+
+            itemStyle[mainStart]=currentMain;
+            itemStyle[mainEnd]=itemStyle[mainStart]+mainSign*itemStyle[mainSize];
+            currentMain=itemStyle[mainEnd];
+        }
+    }else{
+        // 
+        flexLines.forEach(items=>{
+            let mainSpace=items.mainSpace;
+            let flexTotal=0;
+            for(let i=0;i<items.length;i++){
+                let item=items[i];
+                let itemStyle=getStyle(item);
+                if((itemStyle.flex!==null)&&(itemStyle.flex!==(void 0))){
+                    flexTotal+=itemStyle.flex;
+                    continue;
+                }
+            }
+
+            if(flexTotal){
+                // 
+                let currentMain=mainBase;
+                for(let i=0;i<items.length;i++){
+                    let item=items[i];
+                    let itemStyle=getStyle(item);
+                    if(itemStyle.flex){
+                        itemStyle[mainSize]=(mainSpace/flexTotal)*itemStyle.flex;
+                    }
+                    itemStyle[mainStart]=currentMain;
+                    itemStyle[mainEnd]=itemStyle[mainStart]+mainSign*itemStyle[mainSize];
+                    currentMain=itemStyle[mainEnd];
+                }
+            }else{
+                // 
+                if(style.justifyContent==="flex-start"){
+                    let currentMain=mainBase;
+                    let step=0;
+                }
+                if(style.justifyContent==="flex-end"){
+                    let currentMain=mainSpace*mainSign+mainBase;
+                    let step=0;
+                }
+                if(style.justifyContent==="center"){
+                    let currentMain=mainSpace/2*mainSign+mainBase;
+                    let step=0;
+                }
+                if(style.justifyContent==="space-between"){
+                    let step=mainSpace/(items.length-1)*mainSign;
+                    let currentMain=mainBase;
+                }
+                if(style.justifyContent==="space-around"){
+                    let step=mainSpace/items.length*mainSign;
+                    let currentMain=step/2+mainBase;
+                }
+                for(let i=0;i<items.length;i++){
+                    let item=items[i];
+                    let itemStyle=getStyle(item);
+                    itemStyle[mainStart]=currentMain;
+                    itemStyle[mainEnd]=itemStyle[mainStart]+mainSign*itemStyle[mainSize];
+                    currentMain=itemStyle[mainEnd]+step;
+                }
+            }
+
+        });
+    }
 }
 
 module.exports = layout;

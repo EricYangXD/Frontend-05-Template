@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 17:03:41
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-08 15:02:36
+ * @LastEditTime: 2020-12-08 17:16:23
  * @Description:
  */
 const net = require("net");
@@ -152,6 +152,8 @@ class ResponseParser {
 			}
 		} else if (this.current === this.WAITING_BODY) {
 			// console.log(char);
+			// TODO 
+			this.bodyParser.receiveChar(char);
 		}
 	}
 }
@@ -213,13 +215,15 @@ void (async function () {
 		headers: {
 			["X-Foo2"]: "customed",
 		},
-		body: { name: "EricYangXD" },
+		body: { 
+			name: "EricYangXD" 
+		},
 	});
 	let response = await request.send();
 	console.log("response: ", response);
 	// parser接收一段文本返回一棵DOM树
 	let dom = parser.parseHTML(response.body);
 
-	console.log(JSON.stringify(dom, null, "    "));
-	// console.log("");
+	// console.log(JSON.stringify(dom, null, "    "));
+	console.log("dom: ",dom);
 })();

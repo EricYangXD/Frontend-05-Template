@@ -2,12 +2,13 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 17:03:41
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-08 17:16:23
+ * @LastEditTime: 2020-12-09 17:38:12
  * @Description:
  */
 const net = require("net");
 const parser = require("./parser");
-
+const images = require("images");
+const render = require("./render");
 class Request {
 	constructor(options) {
 		this.method = options.method || "GET";
@@ -220,10 +221,13 @@ void (async function () {
 		},
 	});
 	let response = await request.send();
-	console.log("response: ", response);
+	// console.log("response: ", response);
 	// parser接收一段文本返回一棵DOM树
 	let dom = parser.parseHTML(response.body);
 
+	let viewport=images(800,600);
+	render(viewport,dom.children[0].children[3].children[1].children[1]);
+	viewport.save("viewport.jpg");
 	// console.log(JSON.stringify(dom, null, "    "));
-	console.log("dom: ",dom);
+	// console.log("dom: ",dom);
 })();

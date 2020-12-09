@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 15:00:34
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-08 15:04:20
+ * @LastEditTime: 2020-12-09 17:21:28
  * @Description:
  */
 // request line/headers/body 文本型协议 传的都是字符串 「\r\n」作为换行  空行作为结尾
@@ -18,20 +18,27 @@ const server = http.createServer((req, res) => {
 		`<html maaa="a">
 	<head>
 		<style>
-			body div #myid {
-				width: 100px;
-				background-color: #ff5000;
+		#container{
+			width: 500px;
+			height: 300px;
+			display: flex;
+			background-color: rgb(255,255,255); 
+		}
+		#container #myid {
+				width: 200px;
+				height: 100px;
+				background-color: rgb(255,0,0);
 			}
-			body div img {
-				width: 30px;
-				background-color: #ff1111;
+			#container .c1 {
+				flex: 1;
+				background-color: rgb(0,255,0);
 			}
 		</style>
 	</head>
 	<body>
-		<div>
-			<img id="myid" />
-			<img />
+		<div id="container">
+			<div id="myid"></div>
+			<div class=".c1"></div>
 		</div>
 	</body>
 </html>`

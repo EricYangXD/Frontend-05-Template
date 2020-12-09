@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 19:15:51
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-08 11:51:28
+ * @LastEditTime: 2020-12-09 17:42:40
  * @Description:
  */
 const css = require("css");
@@ -310,7 +310,7 @@ function singleQuotedAttributeValue(c) {
 	} else if (c == EOF) {
 	} else {
 		currentAttribute.value += c;
-
+		// TODO
 		return doubleQuotedAttributeValue;
 		// return singleQuotedAttributeValue;
 	}
@@ -395,12 +395,12 @@ function afterAttributeName(c) {
 }
 // class Parser {}
 module.exports.parseHTML = function parseHTML(html) {
-	console.log(html);
+	// console.log(html);
 	let state = data;
 	for (let c of html) {
 		state = state(c);
 	}
 	state = state(EOF);
-	console.log(stack[0]);
+	// console.log(stack[0]);
 	return stack[0];
 };

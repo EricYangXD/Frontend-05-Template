@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-09 17:10:45
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-09 17:16:12
+ * @LastEditTime: 2020-12-09 17:54:12
  * @Description:
  */
 const images = require("images");
@@ -20,6 +20,11 @@ function render(viewport, element) {
 				1
 			);
 			viewport.draw(img, element.style.left || 0, element.style.top || 0);
+		}
+	}
+	if (element.children) {
+		for (let child of element.children) {
+			render(viewport, child);
 		}
 	}
 }

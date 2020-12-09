@@ -2,7 +2,7 @@
  * @Author: Eric YangXinde
  * @Date: 2020-12-06 17:03:41
  * @LastModifiedBy: Eric YangXinde
- * @LastEditTime: 2020-12-09 17:38:12
+ * @LastEditTime: 2020-12-09 17:56:57
  * @Description:
  */
 const net = require("net");
@@ -226,8 +226,59 @@ void (async function () {
 	let dom = parser.parseHTML(response.body);
 
 	let viewport=images(800,600);
-	render(viewport,dom.children[0].children[3].children[1].children[1]);
+	render(viewport,dom);
 	viewport.save("viewport.jpg");
 	// console.log(JSON.stringify(dom, null, "    "));
 	// console.log("dom: ",dom);
 })();
+
+
+/***
+[Running] node "/Users/eric/workspace/geektime/Frontend-05-Template/Week 10/client.js"
+HTTP/1.1 200 OK
+Content-Type: text/plain
+X-Foo: bar
+referer: qq.misic.com
+Date: Wed, 09 Dec 2020 09:55:31 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+1be
+<html maaa="a">
+	<head>
+		<style>
+		#container{
+			width: 500px;
+			height: 300px;
+			display: flex;
+			background-color: rgb(255,255,255); 
+		}
+		#container #myid {
+				width: 200px;
+				height: 100px;
+				background-color: rgb(255,0,0);
+			}
+			#container .c1 {
+				flex: 1;
+				background-color: rgb(0,255,0);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="myid"></div>
+			<div class=".c1"></div>
+		</div>
+	</body>
+</html>
+0
+
+
+(node:42440) UnhandledPromiseRejectionWarning: TypeError: state is not a function
+    at Object.parseHTML (/Users/eric/workspace/geektime/Frontend-05-Template/Week 10/parser.js:401:11)
+    at /Users/eric/workspace/geektime/Frontend-05-Template/Week 10/client.js:226:19
+    at processTicksAndRejections (internal/process/task_queues.js:89:5)
+(node:42440) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+(node:42440) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+
+ ***/ 

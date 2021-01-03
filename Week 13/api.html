@@ -1,0 +1,1037 @@
+<!--
+ * @Author: Eric YangXinde
+ * @Date: 2021-01-03 23:04:39
+ * @LastModifiedBy: Eric YangXinde
+ * @LastEditTime: 2021-01-03 23:04:40
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let names = Object.getOwnPropertyNames(window);
+        // ecma 262
+        {
+            let set = new Set();
+            let objects = [
+                'globalThis', 'Infinity', 'NaN', 'undifined', 'eval', 'isFinite', 'isNaN', 'parseInt',
+                'parseFloat', 'decodeURI', 'decodeURIComponent', 'encodeURI', 'encodeURIComponent',
+                'Array', 'Buffer', 'BigInt', 'BigInt64Array', 'BigUint64Array', 'Boolean', 'DataView',
+                'Date', 'Error', 'EvalError', 'Float32Array', 'Float64Array', 'Function', 'Int8Array',
+                'Int16Array', 'Int32Array', 'Map', 'Number', 'Object', 'Promise', 'Proxy', 'RangeError',
+                'ReferenceError', 'RegExp', 'Set', 'SharedArrayBuffer', 'ArrayBuffer', 'console',
+                'ArrayBuffer', 'escape', 'unescape', 'String', 'Symbol', 'SyntaxError',
+                'TypeError', 'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'URIError',
+                'WeakMap', 'WeakSet', 'Atomics', 'JSON', 'Math', 'Reflect'
+            ];
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // subclass of node 
+        {
+            names = names.filter(name => {
+                try {
+                    return !(window[name].prototype instanceof Node);
+                } catch (e) {}
+            })
+        }
+        {
+            names = names.filter(name => name !== 'DecompressionStream')
+        } 
+        {
+            names = names.filter(name => name !== 'CompressionStream')
+        } 
+        {
+            names = names.filter(name => name !== 'BeforeInstallPromptEvent')
+        }
+        // events
+        {
+            names = names.filter(e => !e.match(/^on/));
+        }
+        // webkit
+        {
+            names = names.filter(e => !e.match(/^webkit/));
+        }
+        // https://html.spec.whatwg.org/#the-window-object
+        {
+            let set = new Set();
+            let objects = [
+                'window', 'self', 'document', 'name', 'location', 'history', 'customElements',
+                'locationbar', 'menubar', 'personalbar', 'scrollbars', 'statusbar', 'toolbar', 'status',
+                'close', 'closed', 'stop', 'focus', 'blur', 'frames', 'length', 'top', 'opener', 'parent',
+                'frameElement', 'open', 'object', 'navigator', 'ApplicationCache', 'originIsolated',
+                'applicationCache', 'alert', 'confirm', 'prompt', 'print', 'postMessage'
+            ];
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/#embedded-content
+        {
+            let set = new Set();
+            let objects = [
+                'HTMLPictureElement', 'HTMLSourceElement', 'HTMLElement', 'WebSocket'
+            ];
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // intl
+        {
+            names = names.filter(name => name !== 'Intl')
+        }
+        // https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.3
+        {
+            let set = new Set();
+            let objects = ["WebGLQuery", "WebGLSampler", "WebGLSync", "WebGLTransformFeedback",
+                "WebGLVertexArrayObject", "WebGL2RenderingContextBase", "WebGL2RenderingContextOverloads",
+                "WebGL2RenderingContext", 'WebGLUniformLocation'
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.12
+        {
+            let set = new Set();
+            let objects = ["WebGLContextAttributes", "WebGLObject", "WebGLBuffer", "WebGLFramebuffer", "WebGLProgram",
+                "WebGLRenderbuffer", "WebGLShader", "WebGLTexture", "WebGLUniformLocation", "WebGLActiveInfo",
+                "WebGLShaderPrecisionFormat", "WebGLRenderingContextBase", "WebGLRenderingContextOverloads",
+                "WebGLRenderingContext", "WebGLContextEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://webaudio.github.io/web-audio-api/#AudioContext
+        // https://w3c.github.io/media-source/#sourcebufferlist
+        {
+            let set = new Set();
+            let objects = ["AudioNode", "MediaStream", "MediaStreamTrackAudioSourceNode", 'MediaStreamEvent',
+                "MediaStreamAudioDestinationNode", "AudioContext", "AudioDestinationNode", "AudioParam",
+                "AnalyserNode", "AudioBuffer", "AudioBufferSourceNode", "AudioListener", "PannerNode",
+                "AudioWorklet", "AudioWorkletGlobalScope", "AudioWorkletNode", "AudioWorkletProcessor",
+                "BiquadFilterNode", "ChannelMergerNode", "ChannelSplitterNode", "ConstantSourceNode",
+                "ConvolverNode", "DelayNode", "DynamicsCompressorNode", "GainNode", "IIRFilterNode",
+                "MediaElementAudioSourceNode", "MediaStreamAudioSourceNode", "MediaStreamTrack", "PeriodicWave",
+                "OscillatorNode", "StereoPannerNode", "WaveShaperNode", "ScriptProcessorNode",
+                "AudioProcessingEvent", "BaseAudioContext", "OfflineAudioContext", "currentTime", "running",
+                "destination", "Event", "oncomplete", "NotSupportedError", "BaseAudioContext.createBuffer()",
+                "IndexSizeError", "numberOfInputs", "BaseAudioContext.createChannelMerger(numberOfInputs)",
+                "numberOfOutputs", "BaseAudioContext.createChannelSplitter(numberOfOutputs)",
+                "BaseAudioContext.createDelay(maxDelayTime)", "BaseAudioContext.createIIRFilter()",
+                "InvalidStateError", "real", "imag", "PeriodicWaveOptions", "disableNormalization",
+                "BaseAudioContext.createPeriodicWave()", "numberOfInputChannels", "numberOfOutputChannels",
+                "BaseAudioContext.createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels)",
+                "bufferSize", "onaudioprocess", "ArrayBuffer", "decodeAudioData()", "DOMException",
+                "[[pending promises]]", "DataCloneError", "decoding thread", "EncodingError",
+                "BaseAudioContext.decodeAudioData()", "Promise", "DecodeSuccessCallback()", "DecodeErrorCallback()",
+                "suspend", "close", "resume", "suspended", "latencyHint", "sampleRate", "state",
+                "AudioContext.constructor(contextOptions)", "outputLatency", "closed", "HTMLMediaElement", "void",
+                "AudioContext.createMediaElementSource()", "AudioContext.createMediaStreamSource()",
+                "AudioContext.createMediaStreamTrackSource()", "AudioTimestamp", "contextTime", "performanceTime",
+                "getOutputTimestamp", "[[suspended by user]]", "[[pending resume promises]]",
+                "[[pending\npromises]]", "AudioContextOptions", "AudioContextLatencyCategory", "baseLatency",
+                "channelCount", "OfflineAudioContext.constructor(contextOptions)",
+                "OfflineAudioContext.constructor(numberOfChannels, length, sampleRate)", "createBuffer()",
+                "[[rendering started]]", "[[rendered buffer]]", "startRendering()", "OfflineAudioCompletionEvent",
+                "OfflineAudioContext.suspend()", "OfflineAudioContextOptions", "OfflineAudioCompletionEventInit",
+                "renderedBuffer", "numberOfChannels", "length", "AudioBufferOptions", "[[number of channels]]",
+                "[[length]]", "[[sample rate]]", "[[internal data]]", "AudioBuffer.constructor()",
+                "copyFromChannel()", "bufferOffset", "AudioBuffer.copyFromChannel()", "copyToChannel()",
+                "UnknownError", "source", "AudioBuffer.copyToChannel()", "Float32Array", "[[internal\ndata]]",
+                "AudioBuffer.getChannelData()", "getChannelData()", "AudioBufferSourceNode.start", "buffer",
+                "outputBuffer", "channelCountMode", "channelInterpretation", "value", "EventTarget",
+                "ChannelCountMode", "max", "discrete", "AudioScheduledSourceNode", "mediaElement",
+                "[[callable process]]", "maxChannelCount", "explicit", "speakers",
+                "AudioNode.connect(destinationNode, output, input)", "InvalidAccessError",
+                "AudioNode.connect(destinationParam, output)", "destinationParam", "AudioNode.disconnect(output)",
+                "AudioNode.disconnect(destinationNode)", "AudioNode.disconnect(destinationNode, output)",
+                "AudioNode.disconnect(destinationNode, output, input)", "AudioNode.disconnect(destinationParam)",
+                "AudioNode.disconnect(destinationParam, output)", "AudioNodeOptions", "automationRate", "a-rate",
+                "k-rate", "minValue", "maxValue", "setValueAtTime()", "linearRampToValueAtTime()",
+                "exponentialRampToValueAtTime()", "setTargetAtTime()", "setValueCurveAtTime()", "defaultValue",
+                "playbackRate", "detune", "threshold", "knee", "ratio", "attack", "release", "panningModel", "HRTF",
+                "[[current value]]", "cancelScheduledValues()", "cancelAndHoldAtTime()",
+                "AudioParam.cancelAndHoldAtTime()", "RangeError", "cancelTime",
+                "AudioParam.cancelScheduledValues()", "setValueAtTime(value, currentTime)",
+                "AudioParam.exponentialRampToValueAtTime()", "AudioParam.linearRampToValueAtTime()",
+                "AudioParam.setTargetAtTime()", "AudioParam.setValueAtTime()", "AudioParam.setValueCurveAtTime()",
+                "start()", "stop()", "duration", "[[source started]]", "AudioScheduledSourceNode.start(when)",
+                "when", "AudioScheduledSourceNode.stop(when)", "AnalyserNode.constructor()", "fftSize",
+                "getByteFrequencyData()", "getFloatFrequencyData()", "maxDecibels", "minDecibels", "Uint8Array",
+                "frequencyBinCount", "AnalyserNode.getByteFrequencyData()", "AnalyserNode.getByteTimeDomainData()",
+                "AnalyserNode.getFloatFrequencyData()", "AnalyserNode.getFloatTimeDomainData()", "AnalyserOptions",
+                "smoothingTimeConstant", "loop", "stop", "AudioBufferSourceNode.constructor()", "[[buffer set]]",
+                "loopStart", "loopEnd", "AudioBufferSourceNode.start(when, offset, duration)",
+                "AudioBufferSourceOptions", "listener", "positionX", "positionY", "positionZ", "forwardX",
+                "forwardY", "forwardZ", "upX", "upY", "upZ", "setOrientation()", "AudioListener.setOrientation()",
+                "setPosition()", "AudioListener.setPosition()", "AudioProcessingEventInit", "inputBuffer",
+                "playbackTime", "frequency", "BiquadFilterNode.constructor()", "lowpass", "highpass", "Q",
+                "bandpass", "notch", "allpass", "peaking", "lowshelf", "highshelf", "float", "type",
+                "BiquadFilterNode.getFrequencyResponse()", "BiquadFilterOptions", "gain", "ChannelMergerOptions",
+                "createChannelMerger", "ChannelMergerNode.constructor()", "createChannelMerger()",
+                "ChannelSplitterOptions.numberOfOutputs", "createChannelSplitter", "ChannelSplitterOptions",
+                "constructor", "createChannelSplitter()", "ChannelSplitterNode.constructor()", "offset",
+                "ConstantSourceNode.constructor()", "ConstantSourceOptions", "clamped-max", "normalize",
+                "ConvolverNode.constructor()", "number of channels", "sample-rate", "ConvolverOptions",
+                "maxDelayTime", "DelayNode.constructor()", "createDelay()", "DelayOptions", "delayTime",
+                "[[internal reduction]]", "DynamicsCompressorNode.constructor()", "DynamicsCompressorOptions",
+                "[[detector average]]", "[[compressor gain]]", "GainNode.constructor()", "GainOptions",
+                "IIRFilterNode.constructor()", "IIRFilterNode.getFrequencyResponse()", "IIRFilterOptions",
+                "feedforward", "createIIRFilter()", "feedback", "feedback parameter", "feedforward parameter",
+                "createMediaElementSource()", "MediaElementAudioSourceOptions",
+                "MediaElementAudioSourceNode.constructor()", "stream",
+                "MediaStreamAudioDestinationNode.constructor()", "mediaStream", "[[input track]]",
+                "MediaStreamAudioSourceNode.constructor()", "MediaStreamAudioSourceOptions", "mediaStreamTrack",
+                "MediaStreamTrackAudioSourceNode.constructor()", "MediaStreamTrackAudioSourceOptions",
+                "OscillatorNode.constructor()", "custom", "setPeriodicWave()", "sine",
+                "OscillatorNode.setPeriodicWave()", "OscillatorOptions", "periodicWave", "square", "sawtooth",
+                "triangle", "PanningModelType", "equalpower", "DistanceModelType", "inverse", "refDistance",
+                "maxDistance", "rolloffFactor", "PannerNode.constructor()", "coneOuterGain", "coneOuterAngle",
+                "distanceModel", "linear", "exponential", "orientationX", "orientationY", "orientationZ",
+                "PannerNode.setOrientation()", "PannerNode.setPosition()", "PannerOptions", "coneInnerAngle",
+                "options.real", "options.imag", "[[real]]", "[[imag]]", "[[normalize]]", "PeriodicWaveConstraints",
+                "PeriodicWave.constructor()", "createPeriodicWave()", "createScriptProcessor()",
+                "StereoPannerNode.constructor()", "StereoPannerOptions", "pan", "oversample", "2x", "4x", "options",
+                "curve", "[[curve set]]", "WaveShaperNode.constructor()", "none", "WaveShaperOptions",
+                "addModule(moduleUrl)", "registerProcessor()", "addModule()", "audioWorklet",
+                "AudioWorkletProcessorConstructor", "MessagePort", "[[current frame]]",
+                "registerProcessor(name, processorCtor)", "TypeError", "name",
+                "AudioWorkletGlobalScope.registerProcessor(name, processorCtor)", "DOMString",
+                "AudioWorkletNodeOptions", "port", "AudioWorkletNode.constructor()", "MessageChannel", "port1",
+                "port2", "AudioParamMap", "parameterData", "parameters", "AudioParamDescriptor",
+                "outputChannelCount", "process()", "[[node reference]]",
+                "AudioWorkletProcessor.process(inputs, outputs, parameters))", "boolean", "AudioContextState",
+                "close()", "ChannelInterpretation",
+                "MediaSource", "SourceBuffer", "SourceBufferList",
+                "MediaRecorder", "BlobEvent", "MediaRecorderErrorEvent",
+                "MediaKeySystemAccess", "MediaKeys", "MediaKeySession", "MediaKeyStatusMap", "MediaKeySystemAccess",
+                "MediaKeys", "MediaKeySession", "MediaKeyStatusMap", "MediaKeyMessageEvent", "MediaEncryptedEvent",
+                "MediaCapabilities"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://encoding.spec.whatwg.org/#dom-textencoder
+        {
+            let set = new Set();
+            let objects = ["TextDecoderCommon", "TextDecoder", "TextEncoderCommon", "TextEncoder",
+                "GenericTransformStream", "TextDecoderStream", "TextEncoderStream"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://wicg.github.io/background-sync/spec/#sync-manager-interface
+        {
+            let set = new Set();
+            let objects = ["SyncManager", "SyncEvent"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://wicg.github.io/background-sync/spec/#sync-manager-interface
+        {
+            let set = new Set();
+            let objects = ["Storage", "WindowSessionStorage", "WindowLocalStorage", "StorageEvent", "StorageEventInit"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/screen-orientation/#screenorientation-interface
+        {
+            let set = new Set();
+            let objects = ["ScreenOrientation", "ScreenOrientation"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/webrtc-pc/#dom-rtctrackevent
+        {
+            let set = new Set();
+            let objects = ["RTCSessionDescription", "RTCIceCandidate", "RTCPeerConnectionIceEvent",
+                "RTCPeerConnectionIceErrorEvent", "RTCCertificate", "RTCRtpSender", "RTCRtpReceiver",
+                "RTCRtpTransceiver", "RTCDtlsTransport", "RTCIceTransport", "RTCTrackEvent", "RTCSctpTransport",
+                "RTCDataChannel", "RTCDataChannelEvent", "RTCDTMFSender", "RTCDTMFToneChangeEvent",
+                "RTCStatsReport", "RTCError", "RTCErrorEvent", "RTCIceTransport", "RTCPeerConnection",
+                "RTCSessionDescription", "RTCIceCandidate", "RTCPeerConnectionIceEvent",
+                "RTCPeerConnectionIceErrorEvent", "RTCCertificate", "RTCRtpSender", "RTCRtpReceiver",
+                "RTCRtpTransceiver", "RTCDtlsTransport", "RTCIceTransport", "RTCTrackEvent", "RTCSctpTransport",
+                "RTCDataChannel", "RTCDataChannelEvent", "RTCDTMFSender", "RTCDTMFToneChangeEvent",
+                "RTCStatsReport", "RTCError", "RTCErrorEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediacapture-image/#photocapabilities-section
+        {
+            let set = new Set();
+            let objects = ["Navigator", "NavigatorID", "NavigatorLanguage", "NavigatorContentUtils", "NavigatorCookies",
+                "NavigatorPlugins", "PluginArray", "MimeTypeArray", "Plugin", "MimeType"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediacapture-image/#photocapabilities-section
+        {
+            let set = new Set();
+            let objects = ["ImageCapture", "videoTrack", "photoSettings", "PhotoCapabilities", "PhotoSettings",
+                "MediaSettingsRange", "RedEyeReduction", "FillLightMode", "ConstrainPoint2DParameters",
+                "ConstrainPoint2D", "MeteringMode", "Point2D"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediacapture-image/#photocapabilities-section
+        {
+            let set = new Set();
+            let objects = ["ImageCapture", "videoTrack", "photoSettings", "PhotoCapabilities", "PhotoSettings",
+                "MediaSettingsRange", "RedEyeReduction", "FillLightMode", "ConstrainPoint2DParameters",
+                "ConstrainPoint2D", "MeteringMode", "Point2D"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/canvas.html#dom-path2d
+        {
+            names = names.filter(name => name !== 'Path2D')
+        }
+        // https://w3c.github.io/mediacapture-image/#photocapabilities-section
+        {
+            let set = new Set();
+            let objects = ["OverconstrainedError", "MediaStreamTrack", "MediaStream", "MediaStreamTrackEvent",
+                "MediaDevices", "MediaDeviceInfo", "InputDeviceInfo", "ConstrainablePattern"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://wicg.github.io/netinfo/#idl-def-NetworkInformation
+        {
+            let set = new Set();
+            let objects = ["NavigatorNetworkInformation", "NetworkInformation", "NavigatorNetworkInformation",
+                "NetworkInformation"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/canvas.html#the-imagebitmaprenderingcontext-interface
+        {
+            let set = new Set();
+            let objects = ["RenderingContext", "HTMLCanvasElement", "BlobCallback", "HTMLOrSVGImageElement",
+                "CanvasImageSource", "CanvasFillRule", "CanvasRenderingContext2DSettings", "ImageSmoothingQuality",
+                "CanvasRenderingContext2D", "CanvasState", "CanvasTransform", "CanvasCompositing",
+                "CanvasImageSmoothing", "CanvasFillStrokeStyles", "CanvasShadowStyles", "CanvasFilters",
+                "CanvasRect", "CanvasDrawPath", "CanvasUserInterface", "CanvasText", "CanvasDrawImage",
+                "CanvasImageData", "CanvasLineCap", "CanvasLineJoin", "CanvasTextAlign", "CanvasTextBaseline",
+                "CanvasDirection", "CanvasPathDrawingStyles", "CanvasTextDrawingStyles", "CanvasPath",
+                "CanvasGradient", "CanvasPattern", "TextMetrics", "ImageData", "Path2D",
+                "ImageBitmapRenderingContext", "ImageBitmapRenderingContextSettings", "OffscreenRenderingContext",
+                "ImageEncodeOptions", "OffscreenRenderingContextId", "OffscreenCanvas",
+                "OffscreenCanvasRenderingContext2D"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://www.w3.org/TR/IndexedDB/#idbversionchangeevent
+        {
+            let set = new Set();
+            let objects = ["IDBRequest", "IDBOpenDBRequest", "IDBVersionChangeEvent", "IDBFactory", "IDBDatabase",
+                "IDBObjectStore", "IDBIndex", "IDBKeyRange", "IDBCursor", "IDBCursorWithValue", "IDBTransaction"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/geolocation-api/#position_error_interface
+        {
+            let set = new Set();
+            let objects = ["GeolocationCoordinates", "GeolocationPositionError", "Geolocation", "GeolocationPosition",
+                "GeolocationCoordinates", "GeolocationPositionError"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/gamepad/extensions.html#gamepadhapticactuator-interface
+        {
+            let set = new Set();
+            let objects = ["GamepadHapticActuator", "GamepadPose", "GamepadHapticActuator", "GamepadPose", "Gamepad",
+                "GamepadButton", "GamepadEvent", "Gamepad", "GamepadButton", "GamepadEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/server-sent-events.html#the-eventsource-interface
+        {
+            let set = new Set();
+            let objects = ["EventSource", "EventSourceInit", "withCredentials"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/canvas.html#dom-path2d
+        {
+            names = names.filter(name => name !== 'DOMError')
+        }
+        // https://www.w3.org/TR/WebCryptoAPI/#crypto-interface
+        {
+            names = names.filter(name => name !== 'Crypto')
+        }
+        // https://html.spec.whatwg.org/multipage/web-sockets.html#the-closeevent-interface
+        {
+            let set = new Set();
+            let objects = ["BinaryType", "WebSocket", "CloseEvent", "CloseEventInit"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://w3c.github.io/clipboard-apis/#clipboarditem
+        {
+            let set = new Set();
+            let objects = ["ClipboardEvent", "Clipboard", "ClipboardItem"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediacapture-fromelement/#the-canvascapturemediastreamtrack
+        {
+            let set = new Set();
+            let objects = ["HTMLMediaElement", "HTMLCanvasElement", "CanvasCaptureMediaStreamTrack"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediacapture-fromelement/#the-canvascapturemediastreamtrack
+        {
+            let set = new Set();
+            let objects = ["HTMLMediaElement", "HTMLCanvasElement", "CanvasCaptureMediaStreamTrack"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/web-messaging.html#dom-broadcastchannel
+        {
+            let set = new Set();
+            let objects = ["MessageChannel", "MessagePort", "PostMessageOptions", "BroadcastChannel"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/battery/
+        {
+            names = names.filter(name => name !== 'BatteryManager')
+        }
+        // https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult
+        {
+            let set = new Set();
+            let objects = ["XPathNamespace", "XPathException", "INVALID_EXPRESSION_ERR", "TYPE_ERR", "XPathEvaluator",
+                "XPathExpression", "createExpression", "XPathNSResolver", "createNSResolver", "evaluate",
+                "lookupNamespaceURI", "XPathResult", "ANY_TYPE", "NUMBER_TYPE", "STRING_TYPE", "BOOLEAN_TYPE",
+                "UNORDERED_NODE_ITERATOR_TYPE", "ORDERED_NODE_ITERATOR_TYPE", "UNORDERED_NODE_SNAPSHOT_TYPE",
+                "ORDERED_NODE_SNAPSHOT_TYPE", "ANY_UNORDERED_NODE_TYPE", "FIRST_ORDERED_NODE_TYPE", "resultType",
+                "numberValue", "stringValue", "booleanValue", "singleNodeValue", "invalidIteratorState",
+                "snapshotLength", "iterateNext", "snapshotItem", "XPATH_NAMESPACE_NODE", "ownerElement"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/DOM-Parsing/#the-xmlserializer-interface
+        {
+            let set = new Set();
+            let objects = ["XMLSerializer", "InnerHTML", "Element", "Range"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://xhr.spec.whatwg.org/#interface-xmlhttprequest
+        {
+            let set = new Set();
+            let objects = ["XMLHttpRequestEventTarget", "XMLHttpRequestUpload", "XMLHttpRequest", "FormData",
+                "ProgressEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://streams.spec.whatwg.org/#default-writer-class
+        {
+            let set = new Set();
+            let objects = ["ReadableStream", "ReadableStreamGenericReader", "ReadableStreamDefaultReader",
+                "ReadableStreamBYOBReader", "ReadableStreamDefaultController", "ReadableByteStreamController",
+                "ReadableStreamBYOBRequest", "WritableStream", "WritableStreamDefaultWriter",
+                "WritableStreamDefaultController", "TransformStream", "TransformStreamDefaultController",
+                "ByteLengthQueuingStrategy", "CountQueuingStrategy"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://streams.spec.whatwg.org/#default-writer-class
+        {
+            let set = new Set();
+            let objects = ["WorkerGlobalScope", "DedicatedWorkerGlobalScope", "SharedWorkerGlobalScope",
+                "AbstractWorker", "Worker", "WorkerOptions", "WorkerType", "SharedWorker",
+                "NavigatorConcurrentHardware", "WorkerNavigator", "WorkerLocation"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://w3c.github.io/uievents/#interface-wheelevent
+        {
+            let set = new Set();
+            let objects = ["UIEvent", "FocusEvent", "MouseEvent", "WheelEvent", "InputEvent", "KeyboardEvent",
+                "CompositionEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://wicg.github.io/visual-viewport/#the-visualviewport-interface
+        {
+            let set = new Set();
+            let objects = ["Window", "VisualViewport"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#validitystate
+        {
+            let set = new Set();
+            let objects = ["SelectionMode", "ValidityState", "SubmitEvent", "SubmitEventInit", "FormDataEvent",
+                "FormDataEventInit"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#validitystate
+        {
+            let set = new Set();
+            let objects = ["VTTCue", "VTTRegion"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://url.spec.whatwg.org/#urlsearchparams
+        {
+            let set = new Set();
+            let objects = ["webkitURL", "URL", "URLSearchParams"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://dom.spec.whatwg.org/#interface-treewalker
+        {
+            let set = new Set();
+            let objects = ["Event", 'TextEvent', "CustomEvent", "EventTarget", "AbortController", "AbortSignal",
+                "NonElementParentNode", "DocumentOrShadowRoot", "ParentNode", "NonDocumentTypeChildNode",
+                "ChildNode", "Slottable", "NodeList", "HTMLCollection", "MutationObserver", "MutationRecord",
+                "Node", "Document", "XMLDocument", "DOMImplementation", "DocumentType", "DocumentFragment",
+                "ShadowRoot", "Element", "NamedNodeMap", "Attr", "CharacterData", "Text", "CDATASection",
+                "ProcessingInstruction", "Comment", "AbstractRange", "StaticRange", "Range", "NodeIterator",
+                "TreeWalker", "DOMTokenList", "XPathResult", "XPathExpression", "XPathEvaluatorBase",
+                "XPathEvaluator", "MutationEvent", "MutationNameEvent", "DOMConfiguration", "DOMError",
+                "DOMErrorHandler", "DOMImplementationList", "DOMImplementationSource", "DOMLocator", "DOMObject",
+                "DOMUserData", "Entity", "EntityReference", "NameList", "Notation", "TypeInfo", "UserDataHandler",
+                "RangeException"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://drafts.csswg.org/css-transitions/#interface-transitionevent
+        {
+            let set = new Set();
+            let objects = ["TransitionEvent", "CustomEvent", "EventTarget", "AbortController", "AbortSignal",
+                "NonElementParentNode", "DocumentOrShadowRoot", "ParentNode", "NonDocumentTypeChildNode",
+                "ChildNode", "Slottable", "NodeList", "HTMLCollection", "MutationObserver", "MutationRecord",
+                "Node", "Document", "XMLDocument", "DOMImplementation", "DocumentType", "DocumentFragment",
+                "ShadowRoot", "Element", "NamedNodeMap", "Attr", "CharacterData", "Text", "CDATASection",
+                "ProcessingInstruction", "Comment", "AbstractRange", "StaticRange", "Range", "NodeIterator",
+                "TreeWalker", "DOMTokenList", "XPathResult", "XPathExpression", "XPathEvaluatorBase",
+                "XPathEvaluator", "MutationEvent", "MutationNameEvent", "DOMConfiguration", "DOMError",
+                "DOMErrorHandler", "DOMImplementationList", "DOMImplementationSource", "DOMLocator", "DOMObject",
+                "DOMUserData", "Entity", "EntityReference", "NameList", "Notation", "TypeInfo", "UserDataHandler",
+                "RangeException",
+                "ErrorEvent", "ErrorEventInit", "PromiseRejectionEvent", "PromiseRejectionEventInit",
+                "EventHandlerNonNull", "EventHandler", "OnErrorEventHandlerNonNull", "OnErrorEventHandler",
+                "OnBeforeUnloadEventHandlerNonNull", "OnBeforeUnloadEventHandler", "GlobalEventHandlers",
+                "WindowEventHandlers", "DocumentAndElementEventHandlers", "TimerHandler",
+                "WindowOrWorkerGlobalScope",
+                "PopStateEvent", "PopStateEventInit", "HashChangeEvent", "HashChangeEventInit",
+                "PageTransitionEvent", "PageTransitionEventInit", "BeforeUnloadEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/media.html#the-trackevent-interface
+        {
+            let set = new Set();
+            let objects = ["HTMLVideoElement", "HTMLAudioElement", "HTMLTrackElement", "CanPlayTypeResult",
+                "MediaProvider", "HTMLMediaElement", "MediaError", "AudioTrackList", "AudioTrack", "VideoTrackList",
+                "VideoTrack", "TextTrackList", "TextTrackMode", "TextTrackKind", "TextTrack", "TextTrackCueList",
+                "TextTrackCue", "TimeRanges", "TrackEvent", "TrackEventInit", "HTMLAllCollection",
+                "HTMLFormControlsCollection", "RadioNodeList", "HTMLOptionsCollection", "DOMStringList"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/touch-events/#touchlist-interface
+        {
+            let set = new Set();
+            let objects = ["Touch", "TouchList", "TouchEvent", "GlobalEventHandlers"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/touch-events/#touchlist-interface
+        {
+            let set = new Set();
+            let objects = ["Touch", "TouchList", "TouchEvent", "GlobalEventHandlers"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/touch-events/#touchlist-interface
+        {
+            let set = new Set();
+            let objects = ["PerformanceLongTaskTiming", "TaskAttributionTiming"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://drafts.csswg.org/cssom/#the-stylesheetlist-interface
+        {
+            let set = new Set();
+            let objects = ["CSSOMString", "MediaList", "StyleSheet", "CSSStyleSheet", "StyleSheetList", "LinkStyle",
+                "CSSRuleList", "CSSRule", "CSSStyleRule", "CSSImportRule", "CSSGroupingRule", "CSSPageRule",
+                "CSSMarginRule", "CSSNamespaceRule", "CSSStyleDeclaration", "ElementCSSInlineStyle",
+                "CSSStyleValue", "StylePropertyMapReadOnly", "StylePropertyMap", "CSSUnparsedValue",
+                "CSSVariableReferenceValue", "CSSKeywordValue", "CSSNumericValue", "CSSUnitValue", "CSSMathValue",
+                "CSSMathSum", "CSSMathProduct", "CSSMathNegate", "CSSMathInvert", "CSSMathMin", "CSSMathMax",
+                "CSSMathClamp", "CSSNumericArray", "CSSTransformValue", "CSSTransformComponent", "CSSTranslate",
+                "CSSRotate", "CSSScale", "CSSSkew", "CSSSkewX", "CSSSkewY", "CSSPerspective", "CSSMatrixComponent",
+                "CSSImageValue",
+                "Selection", "AnimationTimeline", "DocumentTimeline", "Animation", "AnimationEffect",
+                "KeyframeEffect", "Animatable", "AnimationPlaybackEvent",
+                "IntersectionObserver", "IntersectionObserverEntry", "IntersectionObserverRegistration",
+                "InputDeviceCapabilities",
+                "AnimationEvent", "CSSKeyframeRule", "CSSKeyframesRule",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/webappsec-csp/#report-violation
+        // https://drafts.csswg.org/cssom-view/#the-screen-interface
+        {
+            let set = new Set();
+            let objects = ["CSPViolationReportBody", "SecurityPolicyViolationEvent",
+                "MediaQueryList", "MediaQueryListEvent", "Screen", "CaretPosition", "GeometryUtils",
+                "ResizeObserver", "ResizeObserverEntry", "ResizeObserverSize", "ResizeObservation",
+                "ReportBody", "ReportingObserver", "Report",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://www.w3.org/TR/SVG11/types.html#InterfaceSVGUnitTypes
+        {
+            let set = new Set();
+            let objects = [
+                "SVGElement", "SVGAnimatedBoolean", "SVGAnimatedString", "SVGStringList", "SVGAnimatedEnumeration",
+                "SVGAnimatedInteger", "SVGNumber", "SVGAnimatedNumber", "SVGNumberList", "SVGAnimatedNumberList",
+                "SVGLength", "SVGAnimatedLength", "SVGLengthList", "SVGAnimatedLengthList", "SVGAngle",
+                "SVGAnimatedAngle", "SVGColor", "SVGICCColor", "SVGRect", "SVGAnimatedRect", "SVGUnitTypes",
+                "SVGStylable", "SVGLocatable", "SVGTransformable", "SVGTests", "SVGLangSpace",
+                "SVGExternalResourcesRequired", "SVGFitToViewBox", "SVGZoomAndPan", "SVGViewSpec",
+                "SVGURIReference", "SVGCSSRule", "SVGRenderingIntent",
+                "SVGPoint", "SVGPointList", "SVGMatrix", "SVGTransform", "SVGTransformList",
+                "SVGAnimatedTransformList", "SVGPreserveAspectRatio", "SVGAnimatedPreserveAspectRatio"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://fetch.spec.whatwg.org/#response-class
+        {
+            let set = new Set();
+            let objects = ["Headers", "Body", "Request", "Response"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://www.w3.org/TR/pointerevents2/#pointerevent-interface
+        {
+            let set = new Set();
+            let objects = ["PointerEventInit", "PointerEventInit", "PointerEvent", "pointerId", "width", "height",
+                "pressure", "tangentialPressure", "tiltX", "tiltY", "twist", "pointerType", "isPrimary",
+                "PointerEvent", "Element", "setPointerCapture", "releasePointerCapture", "hasPointerCapture",
+                "setPointerCapture", "GlobalEventHandlers", "ongotpointercapture", "onlostpointercapture",
+                "onpointerdown", "onpointermove", "onpointerup", "onpointercancel", "onpointerover", "onpointerout",
+                "onpointerenter", "onpointerleave", "Navigator", "maxTouchPoints", "setPointerCapture",
+                "hasPointerCapture", "releasePointerCapture"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://www.w3.org/TR/navigation-timing/#performancetiming
+        // https://w3c.github.io/server-timing/#the-performanceservertiming-interface
+        {
+            let set = new Set();
+            let objects = ["PerformanceTiming", "PerformanceNavigation", "Performance", "timing", "navigation",
+                "performance",
+                "PerformanceServerTiming", "PerformanceServerTiming", "PerformanceServerTiming",
+                "PerformanceResourceTiming", "PerformancePaintTiming",
+                "PerformanceObserverEntryList", "PerformanceObserver", "PerformanceNavigationTiming",
+                "PerformanceMeasure", "PerformanceMark", "PerformanceEventTiming", "PerformanceEntry",
+                "PerformanceElementTiming",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://dom.spec.whatwg.org/#interface-nodefilter
+        {
+            let set = new Set();
+            let objects = ["Event", "constructor", "type", "eventInitDict", "bubbles", "cancelable", "EventInit",
+                "composed", "CustomEvent", "detail", "CustomEventInit", "EventTarget", "callback", "options",
+                "event", "EventListener", "handleEvent", "EventListenerOptions", "capture",
+                "AddEventListenerOptions", "passive", "once", "AbortController", "AbortSignal",
+                "NonElementParentNode", "elementId", "DocumentOrShadowRoot", "ParentNode", "nodes", "selectors",
+                "NonDocumentTypeChildNode", "ChildNode", "Slottable", "NodeList", "index", "HTMLCollection",
+                "namedItem", "name", "MutationObserver", "target", "MutationCallback", "mutations", "observer",
+                "MutationObserverInit", "childList", "attributes", "characterData", "subtree", "attributeOldValue",
+                "characterDataOldValue", "attributeFilter", "MutationRecord", "Node", "ENTITY_REFERENCE_NODE",
+                "ENTITY_NODE", "NOTATION_NODE", "deep", "otherNode", "other", "namespace", "prefix", "node",
+                "child", "GetRootNodeOptions", "Document", "qualifiedName", "localName", "classNames", "data",
+                "interface", "root", "whatToShow", "filter", "XMLDocument", "ElementCreationOptions", "is",
+                "DOMImplementation", "publicId", "systemId", "doctype", "title", "DocumentType", "DocumentFragment",
+                "ShadowRoot", "ShadowRootMode", "\"open\"", "\"closed\"", "Element", "value", "force", "attr",
+                "init", "where", "element", "ShadowRootInit", "mode", "delegatesFocus", "NamedNodeMap", "Attr",
+                "CharacterData", "offset", "count", "Text", "CDATASection", "ProcessingInstruction", "Comment",
+                "AbstractRange", "StaticRangeInit", "startContainer", "startOffset", "endContainer", "endOffset",
+                "StaticRange", "Range", "toStart", "START_TO_START", "START_TO_END", "END_TO_END", "END_TO_START",
+                "how", "sourceRange", "newParent", "NodeIterator", "TreeWalker", "NodeFilter",
+                "SHOW_ENTITY_REFERENCE", "SHOW_ENTITY", "SHOW_NOTATION", "acceptNode", "DOMTokenList", "token",
+                "tokens", "newToken", "stringifier", "XPathResult", "ANY_TYPE", "NUMBER_TYPE", "STRING_TYPE",
+                "BOOLEAN_TYPE", "UNORDERED_NODE_ITERATOR_TYPE", "ORDERED_NODE_ITERATOR_TYPE",
+                "UNORDERED_NODE_SNAPSHOT_TYPE", "ORDERED_NODE_SNAPSHOT_TYPE", "ANY_UNORDERED_NODE_TYPE",
+                "FIRST_ORDERED_NODE_TYPE", "resultType", "numberValue", "stringValue", "booleanValue",
+                "singleNodeValue", "invalidIteratorState", "snapshotLength", "iterateNext", "snapshotItem",
+                "XPathExpression", "evaluate", "contextNode", "result", "XPathNSResolver", "lookupNamespaceURI",
+                "XPathEvaluatorBase", "createExpression", "expression", "resolver", "createNSResolver",
+                "nodeResolver", "XPathEvaluator",
+                "MessageEvent", "MessageEventInit", "MessageEventSource",
+                "ScrollRestoration", "History", "Location", "LayoutShift", "LayoutShiftAttribution",
+                "LargestContentfulPaint"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap
+        {
+            let set = new Set();
+            let objects = ["ImageBitmap", "ImageBitmapSource", "ImageOrientation", "PremultiplyAlpha",
+                "ColorSpaceConversion", "ResizeQuality", "ImageBitmapOptions", "FrameRequestCallback",
+                "AnimationFrameProvider"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmap
+        {
+            let set = new Set();
+            let objects = ["ImageBitmap", "ImageBitmapSource", "ImageOrientation", "PremultiplyAlpha",
+                "ColorSpaceConversion", "ResizeQuality", "ImageBitmapOptions", "FrameRequestCallback",
+                "AnimationFrameProvider"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://www.w3.org/TR/requestidlecallback/#dom-idledeadline
+        {
+            let set = new Set();
+            let objects = ["IdleDeadline"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://drafts.csswg.org/css-font-loading/#dom-fontfacesetloadevent-fontfaces
+        {
+            let set = new Set();
+            let objects = ["FontFace", "FontFaceSetLoadEvent", "FontFaceSet", "FontFaceSource",
+                "Blob", "File", "FileList", "FileReader", "FileReaderSync", "External",
+                "ElementInternals", "ElementContentEditable", "DataTransfer", "DataTransferItemList",
+                "DataTransferItem", "DragEvent"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/dom.html#domstringmap
+        {
+            let set = new Set();
+            let objects = ["DocumentReadyState", "HTMLOrSVGScriptElement", "Document", "DocumentOrShadowRoot",
+                "HTMLElement", "HTMLUnknownElement", "HTMLOrSVGElement", "DOMStringMap"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://drafts.fxtf.org/geometry/#DOMRect
+        {
+            let set = new Set();
+            let objects = ["DOMPointReadOnly", "SVGPoint", "DOMPoint", "DOMRectReadOnly", "SVGRect", "DOMRect",
+                "DOMRectList", "DOMQuad", "DOMMatrixReadOnly", "SVGMatrix", "WebKitCSSMatrix", "DOMMatrix",
+                "DOMParser", "DOMParserSupportedType",
+                "CustomElementRegistry", "CustomElementConstructor", "ElementDefinitionOptions", "ElementInternals",
+                "ValidityStateFlags",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://drafts.fxtf.org/geometry/#DOMRect
+        {
+            let set = new Set();
+            let objects = ["CSSConditionRule", "CSSMediaRule", "CSSSupportsRule", "CSSPositionValue",
+                "CSSKeyframesRule", "CSSKeyframeRule", "CSSFontFaceRule", "CSS",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://html.spec.whatwg.org/multipage/obsolete.html#external
+        {
+            let set = new Set();
+            let objects = ['external', 'screen', 'origin', 'innerWidth', 'innerHeight', "scrollX", "pageXOffset",
+                "scrollY", "pageYOffset", "visualViewport", "screenX", "screenY", "outerWidth", "outerHeight",
+                "devicePixelRatio", "clientInformation", "offscreenBuffering", "screenLeft", "screenTop",
+                "defaultStatus", "defaultstatus", "styleMedia", "isSecureContext", "queueMicrotask",
+                "requestAnimationFrame", "cancelAnimationFrame", "captureEvents", "releaseEvents",
+                "requestIdleCallback", "cancelIdleCallback", "getComputedStyle", "matchMedia", "moveTo", "moveBy",
+                "resizeTo", "resizeBy", "scroll", "scrollTo", "scrollBy",
+                "getSelection", "find", "fetch", "btoa", "atob", "setTimeout", "clearTimeout", "setInterval",
+                "clearInterval", "createImageBitmap", "crypto", "indexedDB", "sessionStorage", "localStorage",
+                "chrome",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://tc39.es/proposal-weakrefs/#sec-finalization-registry-objects
+        {
+            names = names.filter(name => name !== 'WeakRef')
+        }
+        // https://wicg.github.io/webusb/#enumeration
+        {
+            let set = new Set();
+            let objects = ["USB", "USBConnectionEvent", "USBDevice", "USBInTransferResult", "USBOutTransferResult",
+                "USBIsochronousInTransferPacket", "USBIsochronousInTransferResult",
+                "USBIsochronousOutTransferPacket", "USBIsochronousOutTransferResult", "USBConfiguration",
+                "USBInterface", "USBAlternateInterface", "USBEndpoint", "USBPermissionResult"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://wicg.github.io/webusb/#enumeration
+        {
+            let set = new Set();
+            let objects = ["Bluetooth", "BluetoothPermissionResult", "ValueEvent", "BluetoothDevice",
+                "BluetoothAdvertisingEvent", "BluetoothRemoteGATTServer", "BluetoothRemoteGATTService",
+                "BluetoothRemoteGATTCharacteristic", "BluetoothCharacteristicProperties",
+                "BluetoothRemoteGATTDescriptor", "CharacteristicEventHandlers", "BluetoothDeviceEventHandlers",
+                "ServiceEventHandlers", "BluetoothUUID"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://immersive-web.github.io/webxr/#xrboundedreferencespace-interface
+        {
+            let set = new Set();
+            let objects = ["XRSystem", "XRSession", "XRRenderState", "XRFrame", "XRSpace", "XRReferenceSpace",
+                "XRBoundedReferenceSpace", "XRView", "XRViewport", "XRRigidTransform", "XRPose", "XRViewerPose",
+                "XRInputSource", "XRInputSourceArray", "XRLayer", "XRWebGLLayer", "XRSessionEvent",
+                "XRInputSourceEvent", "XRInputSourcesChangeEvent", "XRReferenceSpaceEvent", "XRPermissionStatus"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://immersive-web.github.io/webxr/#xrboundedreferencespace-interface
+        {
+            let set = new Set();
+            let objects = ["Presentation", "PresentationRequest", "PresentationAvailability",
+                "PresentationConnectionAvailableEvent", "PresentationConnection",
+                "PresentationConnectionCloseEvent", "PresentationReceiver", "PresentationConnectionList"
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://immersive-web.github.io/webxr/#xrboundedreferencespace-interface
+        {
+            let set = new Set();
+            let objects = ["Navigator", "MIDIInputMap", "MIDIOutputMap", "MIDIAccess", "MIDIPort", "MIDIInput",
+                "MIDIOutput", "MIDIMessageEvent", "MIDIConnectionEvent",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        //https://w3c.github.io/payment-request/#paymentaddress-interface
+        // https://www.w3.org/TR/generic-sensor/#the-sensor-interface
+        {
+            let set = new Set();
+            let objects = ["PaymentRequest", "PaymentAddress", "PaymentResponse", "MerchantValidationEvent",
+                "PaymentMethodChangeEvent", "PaymentRequestUpdateEvent",
+                "DeviceOrientationEvent", "DeviceMotionEventAcceleration", "DeviceMotionEventRotationRate",
+                "DeviceMotionEvent",
+                "ServiceWorker", "ServiceWorkerRegistration", "ServiceWorkerContainer", "NavigationPreloadManager",
+                "ServiceWorkerGlobalScope", "Client", "WindowClient", "Clients", "ExtendableEvent", "FetchEvent",
+                "ExtendableMessageEvent", "Cache", "CacheStorage",
+                "Accelerometer", "LinearAccelerationSensor", "GravitySensor",
+                "PublicKeyCredential", "ArrayBuffer", "boolean", "AuthenticatorResponse",
+                "AuthenticatorAttestationResponse", "DOMString", "AuthenticatorAssertionResponse", "unsigned",
+                "long", "USVString",
+                "Sensor", "SensorErrorEvent",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://webassembly.github.io/spec/js-api/#the-webassembly-object
+        {
+            let set = new Set();
+            let objects = ["Module", "Instance", "Memory", "Table", "Global"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://webassembly.github.io/spec/js-api/#the-webassembly-object
+        {
+            let set = new Set();
+            let objects = ["Credential", "CredentialUserData", "CredentialsContainer", "PasswordCredential",
+                "FederatedCredential", "NavigatorStorage", "StorageManager",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediasession/#the-mediasession-interface
+        {
+            let set = new Set();
+            let objects = ["MediaSession", "MediaMetadata"]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        // https://w3c.github.io/mediasession/#the-mediasession-interface
+        {
+            let set = new Set();
+            let objects = [
+                "NavigatorLocks", "LockManager", "Lock",
+                "KeyboardLayoutMap", "Keyboard",
+            ]
+            objects.forEach(obj => set.add(obj));
+            names = names.filter(name => {
+                return !set.has(name)
+            });
+        }
+        console.log(names, names.length)
+    </script>
+</body>
+</html>

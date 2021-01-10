@@ -1,0 +1,63 @@
+<!--
+ * @Author: Eric YangXinde
+ * @Date: 2021-01-10 21:22:51
+ * @LastModifiedBy: Eric YangXinde
+ * @LastEditTime: 2021-01-10 21:22:52
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>component</title>
+	</head>
+	<body>
+		<style>
+			.cls {
+				color: red;
+			}
+		</style>
+		<div class="cls" style="background-color: darkgoldenrod">
+			<a href="//taobao.com">text</a>
+		</div>
+		<input type="text" value="default" />
+		<script>
+			// 由于历史原因，class作为关键字的同时，不能当属性名
+			const div = document.getElementsByTagName("div")[0];
+			div.className; // 'cls'
+
+			// 现代js，关键字可以成为属性名
+			const obj = { class: "i am class" };
+			obj.class;
+
+			/**
+			 * style
+			 **/
+			div.style; // 对象
+			div.getAttribute("style"); // "background-color: darkgoldenrod"
+
+			/**
+			 * href
+			 **/
+			const a = document.getElementsByTagName("a")[0];
+			a.href; // resolve 后的结果
+			a.getAttribute("href"); // 与HTML完全一致
+
+			/**
+			 * input value
+			 * attribute，作为默认值
+			 * 当 value 发生改变时，attribute 不变，property 发生改变
+			 * 元素实际显示效果以 property 优先
+			 **/
+			const input = document.getElementsByTagName("input")[0];
+
+			input.value; // default
+			input.getAttribute("input"); // default
+
+			input.value = "hello";
+			input.value; // hello
+			input.getAttribute("input"); // default
+		</script>
+	</body>
+</html>

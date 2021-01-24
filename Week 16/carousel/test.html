@@ -1,0 +1,50 @@
+<!--
+ * @Author: Eric YangXinde
+ * @Date: 2021-01-24 22:14:09
+ * @LastModifiedBy: Eric YangXinde
+ * @LastEditTime: 2021-01-24 22:14:54
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta
+			name="viewport"
+			content="width=device-width,maximum-scale=1,minimum-scale=1,initial-scale=1,user-scalable=no,shrink-to-fit=no"
+		/>
+		<meta name="renderer" content="webkit" />
+		<title>New Page Title</title>
+		<meta name="description" content="description of website" />
+		<meta name="keywords" content="keywords" />
+		<!--<link rel="stylesheet" type="text/css" media="screen" />-->
+		<!--<script async src="//www.google-analytics.com/analytics.js"></script>-->
+		<!--<script type="text/javascript"></script>-->
+		<style></style>
+	</head>
+	<body>
+		<div
+			id="a"
+			style="width: 100px; height: 100px; background-color: darkcyan"
+		></div>
+		<div
+			id="b"
+			style="width: 100px; height: 100px; background-color: rebeccapurple"
+		></div>
+	</body>
+	<script>
+		let a = document.getElementById("a");
+		let b = document.getElementById("b");
+		a.addEventListener("touchend", (event) => {
+			console.log("a");
+			console.log("changeTouches", event.changedTouches);
+			console.log("target", event.targetTouches);
+		});
+		b.addEventListener("touchend", (event) => {
+			console.log("b");
+			console.log("changeTouches", event.changedTouches);
+			console.log("target", event.targetTouches);
+		});
+	</script>
+</html>

@@ -1,0 +1,54 @@
+<!--
+ * @Author: Eric YangXinde
+ * @Date: 2021-01-24 21:54:25
+ * @LastModifiedBy: Eric YangXinde
+ * @LastEditTime: 2021-01-24 21:55:47
+ * @Description: 
+-->
+
+<!DOCTYPE html>
+<html lang="zh-CN" oncontextmenu="event.preventDefault()">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta
+			name="viewport"
+			content="width=device-width,maximum-scale=1,minimum-scale=1,initial-scale=1,user-scalable=no,shrink-to-fit=no"
+		/>
+		<meta name="renderer" content="webkit" />
+		<title>Gestrue</title>
+		<meta name="description" content="description of website" />
+		<meta name="keywords" content="keywords" />
+		<!--<link rel="stylesheet" type="text/css" media="screen" />-->
+		<!--<script async src="//www.google-analytics.com/analytics.js"></script>-->
+		<!--<script type="text/javascript"></script>-->
+		<style></style>
+	</head>
+	<body>
+		<script type="module">
+			import { EnableGestrue } from "./gesture.js";
+			EnableGestrue(document.documentElement);
+			document.documentElement.addEventListener("tap", () => {
+				console.log("tap trriger event!");
+			});
+			document.documentElement.addEventListener("flick", () => {
+				console.log("flick trriger event!");
+			});
+			document.documentElement.addEventListener("press-start", () => {
+				console.log("press-start trriger event!");
+			});
+			document.documentElement.addEventListener("press-end", () => {
+				console.log("press-end trriger event!");
+			});
+			document.documentElement.addEventListener("pan-start", () => {
+				console.log("pan-start trriger event!");
+			});
+			document.documentElement.addEventListener("pan", () => {
+				console.log("pan trriger event!");
+			});
+			document.documentElement.addEventListener("pan-end", () => {
+				console.log("pan-end trriger event!");
+			});
+		</script>
+	</body>
+</html>
